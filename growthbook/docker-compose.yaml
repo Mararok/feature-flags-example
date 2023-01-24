@@ -1,0 +1,42 @@
+# docker-compose -p growthbook up -d
+version: "3.9"
+services:
+  db:
+    container_name: growthbook_db
+    image: "mongo:6.0"
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=test
+    volumes:
+      - ./volumes/db:/data/db
+  app:
+    container_name: growthbook_app
+    restart: always
+    image: "growthbook/growthbook:git-d98d01c"
+    ports:
+      - "3000:3000" # app
+      - "3100:3100" # api
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: production
+      API_HOST: http://127.0.0.1:3100
+      MONGODB_URI: mongodb://root:test@db:27017/
+      APP_ORIGIN: http://127.0.0.1:3000
+      DISABLE_TELEMETRY: 'true'
+      JWT_SECRET: test_random
+      ENCRYPTION_KEY: test_random
+    volumes:
+      - ./volumes/app-uploads:/usr/local/src/app/packages/back-end/uploads
+    networks:
+      default:
+      shared:
+        aliases:
+          - growthbook_app
+
+networks:
+  default:
+  shared:
+    external: true
+    name: growthbook_shared
