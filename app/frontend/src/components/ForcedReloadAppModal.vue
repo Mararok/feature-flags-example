@@ -8,9 +8,9 @@ function reload() {
 <template>
     <div class="modal-overlay">
         <div class="modal">
-            <h6>Niektóre eksperymentalne funkcjonalności zostały wyłączone lub włączono inne, aplikacja wymaga
-                przeładowania</h6>
-            <button @click="reload">Przeładuj</button>
+            <h6>Some experimental features have been disabled or others have been enabled as required by the application
+              reload</h6>
+            <button @click="reload">Reload app</button>
         </div>
     </div>
 </template>
