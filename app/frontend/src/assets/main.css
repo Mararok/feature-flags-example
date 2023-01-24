@@ -1,0 +1,41 @@
+@import './base.css';
+
+#app {
+    color: black;
+    margin: 10px;
+}
+
+.green {
+    color: green;
+    text-underline-style: single;
+}
+
+
+.blob {
+    background: white;
+    border-radius: 20%;
+    margin: 1em;
+    height: 1.1em;
+    width: 1.1em;
+
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+    transform: scale(1);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(1, 0, 0, 0.7);
+    }
+
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(1, 0, 0, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(1, 0, 0, 0);
+    }
+}
