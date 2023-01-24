@@ -44,6 +44,7 @@ How to run:
 2. Run
 ```bash
 cd app/backend_php
+composer install
 bin/console --env=prod cache:warmup
 docker-compose -p backend_php up -d
 ```
@@ -76,6 +77,7 @@ App updates in background flags state.
 2. Run
 ```bash
 cd app/frontend
+npm install
 npm run dev
 ```
 3. Click link in Vite console and play witch production environments switches in Growthbook panel
