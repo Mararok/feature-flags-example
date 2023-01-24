@@ -11,17 +11,28 @@ abstract class GrowthbookFeatureFlags
     protected Growthbook $gb;
     protected int $currentTimestamp = 0;
 
-    public function __construct(private string $cacheFile, private string $webhookSecret)
+    public function __construct(private string $cacheFile, private string $webhookSecret, private string $endpoint)
     {
         $this->gb = Growthbook::create();
-        $this->reload();
+        $this->reloadFromCache();
     }
 
-    public function reload(): void
+    public function reloadFromCache(): void
     {
         $cached = $this->getRawCached();
         $this->currentTimestamp = $cached["timestamp"] ?? 0;
         $this->gb->withFeatures($cached["features"]);
+    }
+
+    public function refreshCache(): void {
+        $response = json_decode(file_get_contents($this->endpoint), true, JSON_THROW_ON_ERROR);
+        $cacheData = [
+            "timestamp" => strtotime($response["dateUpdated"]),
+            "dateUpdated" => $response["dateUpdated"],
+            "features" => $response["features"]
+        ];
+
+        file_put_contents($this->cacheFile, json_encode($cacheData));
     }
 
     public function replaceFromWebhook(string $payload, $signature)
